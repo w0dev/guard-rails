@@ -47,6 +47,16 @@ example-plugin `AGENTS.md`, Menu / PvP / Input restrictions:
 | Default off | in the Wilderness and on PvP worlds |
 | Only | force right-click, deprioritise, modifier-gate, or add a client-side no-op top entry — the real option always remains in the right-click menu |
 
+## Where each "never" is enforced
+
+| Guarantee | Enforced by | Pinned by |
+|---|---|---|
+| Untargetable options are not expressible | `model/GuardedAction` has no constant for them | `GuardedActionTest.cannotNameAForbiddenAction`, `noDisplayNameIsAForbiddenOption` |
+| No NPC/player/walk entry can ever match | `GuardedAction.NEVER_GUARDED`, disjoint from every action's menu types | `GuardedActionTest.noActionCanMatchNpcPlayerOrWalkEntries`, `neverGuardedCoversEveryNpcAndPlayerType` |
+| No free-form IDs in rules or codes | groups are enums; `codec/StrictObject.finish()` rejects unknown keys | `ShareCodecTest.rejectsSmuggledIdsAndUnknownFields`, `rejectsAttackAndOtherUntargetableActions` |
+| Wilderness opt-in only for carried items | `Rule` builder | `RuleTest.wildernessOptInOnlyForCarriedItems` |
+| No banned APIs / no entry removal | — | `ComplianceTest` |
+
 ## Mechanism → precedent (preliminary; finalised with the engine in step 4)
 
 | Mode | Mechanism | Approved precedent |
